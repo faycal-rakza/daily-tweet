@@ -1,5 +1,8 @@
 import os
+from dotenv import load_dotenv
 import tweepy
+
+load_dotenv()
 
 # Your app's bearer token can be found under the Authentication Tokens section
 # of the Keys and Tokens tab of your app, under the

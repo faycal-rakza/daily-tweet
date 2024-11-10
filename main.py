@@ -2,8 +2,12 @@
 # -*- coding: utf-8 -*-
 
 import authentication
+import os
+from dotenv import load_dotenv
 
-text = "Hello, World!"
+load_dotenv()
+
+tweet_text = os.getenv('TWEET_TEXT')
 
 
 def tweet():
@@ -11,7 +15,7 @@ def tweet():
         client = authentication.client
 
         client.create_tweet(
-            text="text"
+            text=tweet_text
         )
         print("Tweeted!")
     except Exception as e:
