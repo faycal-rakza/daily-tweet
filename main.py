@@ -1,26 +1,26 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-
+import functions_framework
 import authentication
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
-
-tweet_text = os.getenv('TWEET_TEXT')
-
-
-def tweet():
+@functions_framework.http
+def tweet(request=None):
+    if not request:
+        return "No request", 200
     try:
-        client = authentication.client
+        data = request.get_json()
+        if data and "tweet_text" in data:
+            tweet_text = data["tweet_text"]
+            print(tweet_text)
 
-        client.create_tweet(
-            text=tweet_text
-        )
-        print("Tweeted!")
+            client = authentication.client
+
+            client.create_tweet(
+                text=tweet_text
+            )
+            print("Tweeted!")
+            return {"message": "Tweeted!"}, 200
+        else:
+            return {"error": "No tweet_text in request"}, 400
     except Exception as e:
         print("An error occurred")
         print(e)
-
-
-tweet()
+        return {"error": str(e)}, 500
